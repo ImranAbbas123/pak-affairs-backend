@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Shipping Label</title>
+</head>
+
+<body>
+
+    <div style="width: 5in; height: auto; padding: 0.5in; border: 1px solid black; font-family: Arial, sans-serif;">
+        <div style="border-bottom:1px solid black;">
+            <div style="display: inline-block;   padding-bottom:10px;">
+                <img src="<%= logo %>" alt="LOGO"
+                    style="width: 1.5in; margin-right: 0.3in; " />
+            </div>
+            <div style="display: inline-block; border-left:1px solid black; padding-left:15px;">
+                <strong>Lockers / Pharmacab</strong>
+                <div>Company Address</div>
+                <div>City, State Postal Code</div>
+                <div>Country</div>
+            </div>
+        </div>
+        <div style=" align-items: center; border-bottom: 1px solid black; padding-bottom: 10px; padding-top: 20px;">
+            <div style="display: inline-block; width: 1.5in; margin-right: 0.1in;">
+                <strong>To:</strong>
+                <div><%= data.to_name %></div>
+                <div><%= data.to_phone %></div>
+                <div><%= data.to_address %></div>
+            </div>
+            <div style="display: inline-block; border-left: 1px solid black; padding-left: 15px;">
+                <strong>From:</strong>
+                <div><%= data.from_name %></div>
+                <div><%= data.from_phone %></div>
+                <div><%= data.from_address %></div>
+            </div>
+        </div>
+
+        <div style="margin-top: 0.1in;">
+
+            <img src="<%= data.barcode %>" alt="Barcode"
+                style="width: 3in; height: 70px;">
+        </div>
+        <div style="margin-top: 0.1in; text-align:right;">
+            <div>Date/Time: <%= date %></div>
+        </div>
+    </div>
+</body>
+
+</html>

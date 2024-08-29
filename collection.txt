@@ -1,0 +1,29 @@
+// edit schedule
+{
+  "id":"6646376c1fe228fb00f1b533",
+  "event":"664b349abbcb582cde9b3e90",
+ "schedule": [
+    {
+      "hospital": "Ali",
+      "startTime": "10:00 AM",
+      "endTime": "5:00 PM",
+      "holiday": true,
+      "numberOfPatient": "5"
+    },{
+      "hospital": "Jinah Hospital",
+      "startTime": "10:00 AM",
+      "endTime": "5:00 PM",
+      "holiday": true,
+      "numberOfPatient": "5"
+    }
+  ]
+}
+// add 
+{
+  "id":"6646376c1fe228fb00f1b533",
+  "hospital":"jinah hospital",
+  "startTime":"9:00 AM",
+  "endTime":"6:00 PM",
+  "holiday":"false",
+  "numberOfPatient":"5"
+}

@@ -1,0 +1,307 @@
+{
+	"info": {
+		"_postman_id": "60b2c3cd-1c33-4d1e-9e22-27525456c75c",
+		"name": "Apis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36020132"
+	},
+	"item": [
+		{
+			"name": "sub categories blogs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/blogs/get/sub/categories/blogs/664d8e6fd707932af09518cd?page=1&limit=5&title",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"blogs",
+						"get",
+						"sub",
+						"categories",
+						"blogs",
+						"664d8e6fd707932af09518cd"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						},
+						{
+							"key": "title",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add blogs",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY0NjM3NmMxZmUyMjhmYjAwZjFiNTMzIn0sImlhdCI6MTcxNjE4Nzc0Nn0.iRrM2QnPXkRTvNLiwa0A-hn1w0SBvz6bOLOtvKq_hY0"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"My first blogsxfsd ?\",\r\n  \"description\": \"Description of my blogs is to long please add and contact uservdssd\",\r\n  \"content\": \"Description of my blogs is to longdfsdf please add and contact user\",\r\n  \"user\": \"6646376c1fe228fb00f1b533\",\r\n  \"sub_category\": \"664d8e6fd707932af09518cd\",\r\n  \"category\": \"664d8e3cd707932af09518ca\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/blogs/add/blogs",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"blogs",
+						"add",
+						"blogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add categories",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY0NjM3NmMxZmUyMjhmYjAwZjFiNTMzIn0sImlhdCI6MTcxNjE4Nzc0Nn0.iRrM2QnPXkRTvNLiwa0A-hn1w0SBvz6bOLOtvKq_hY0"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"test categories\",\r\n  \"type\": \"sub\",\r\n  \"main_id\":\"664d8e3cd707932af09518ca\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/categories/add/categories",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"categories",
+						"add",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "main categories blogs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/blogs/get/main/categories/blogs/664d8e3cd707932af09518ca?page=1&limit=5&title",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"blogs",
+						"get",
+						"main",
+						"categories",
+						"blogs",
+						"664d8e3cd707932af09518ca"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						},
+						{
+							"key": "title",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sub categories",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/categories/get/sub/categories/664d8e3cd707932af09518ca",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"categories",
+						"get",
+						"sub",
+						"categories",
+						"664d8e3cd707932af09518ca"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all main categories",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/categories/get/main/categories",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"categories",
+						"get",
+						"main",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "single blog",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/blogs/get/details/666035340183ee20a49818ad",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"blogs",
+						"get",
+						"details",
+						"666035340183ee20a49818ad"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "conten",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\":\"imran@gmail.com\",\r\n  \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
