@@ -62,17 +62,18 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   try {
     let user = await Users.findOne({ email });
+
     if (!user) {
       return res.status(400).json({
         success,
-        error: "Invalid credentials. Please enter valid credentials!",
+        message: "Invalid credentials. Please enter valid credentials!",
       });
     }
     const passwordCompair = await bcrypt.compare(password, user.password);
     if (!passwordCompair) {
       return res.status(400).json({
         success,
-        error: "Invalid credentials. Please enter valid credentials!",
+        message: "Invalid credentials. Please enter valid credentials!",
       });
     }
     const toke_data = {
@@ -82,16 +83,8 @@ const login = async (req, res) => {
     };
     const authToken = jwt.sign(toke_data, JWT_SECRET);
     success = true;
-    user = await Users.findById(user.id)
-      .select("-password")
-      .select("-schedule");
-    await Users.findByIdAndUpdate(
-      user.id,
-      {
-        chat_status: "available",
-      },
-      { new: true } // Set `new: true` to return the updated document
-    );
+    user = await Users.findById(user.id).select("-password");
+    console.log(user);
     const data = {
       user,
       authToken,
@@ -241,7 +234,7 @@ const FindUser = async (req, res) => {
         message: "User find successfully.",
         success: true,
       };
-      
+
       return res.json(response);
     } else {
       return res.json({
