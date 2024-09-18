@@ -84,7 +84,7 @@ const login = async (req, res) => {
     const authToken = jwt.sign(toke_data, JWT_SECRET);
     success = true;
     user = await Users.findById(user.id).select("-password");
-    console.log(user);
+
     const data = {
       user,
       authToken,

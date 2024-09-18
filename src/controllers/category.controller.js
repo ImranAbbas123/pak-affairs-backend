@@ -6,6 +6,55 @@ const { ObjectId } = require("mongodb");
 const sendEmail = require("../../config/sendEmail");
 const { body, validationResult } = require("express-validator");
 const router = express.Router();
+
+const getAllCategories = async (req, res) => {
+  try {
+    let success = false;
+    let data = {};
+    let response = {};
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const filterName = req.query.title || "";
+    const type = req.query.type || "all";
+    const searchQuery = {};
+    if (filterName) {
+      searchQuery.title = { $regex: new RegExp(filterName, "i") }; // Case-insensitive search on the 'name' field
+    }
+    let categories;
+    categories = await Categories.find(searchQuery)
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const categoriesCount = await Categories.countDocuments(searchQuery);
+    if (categories) {
+      data = {
+        categories,
+      };
+
+      response = {
+        data,
+        categoriesCount,
+        currentPage: page,
+        totalPages: Math.ceil(categoriesCount / limit),
+        message: "Categories founded successfully.",
+        success: true,
+      };
+      return res.json(response);
+    } else {
+      response = {
+        data,
+        message: "Categories not found",
+        categories: [],
+        totalPages: 0,
+        success: false,
+      };
+      return res.json(response);
+    }
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
 // get all main categories
 const getMainCategories = async (req, res) => {
   try {
@@ -65,7 +114,38 @@ const getSubCategories = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+// get all sub categories
+const getSingleCategory = async (req, res) => {
+  try {
+    let success = false;
+    let data = {};
+    let response = {};
+    const category = await Categories.findById(req.params.id);
+    if (category) {
+      data = {
+        category,
+      };
+      response = {
+        data,
+        message: "Category founded successfully.",
+        success: true,
+      };
+      return res.json(response);
+    } else {
+      response = {
+        data,
+        message: "Category not founded.",
+        success: false,
+      };
+      return res.json(response);
+    }
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
 module.exports = {
   getMainCategories,
   getSubCategories,
+  getAllCategories,
+  getSingleCategory,
 };
