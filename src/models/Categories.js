@@ -4,8 +4,12 @@ const { ObjectId } = Schema.Types;
 const CategorySchema = new Schema(
   {
     main_id: {
-      type: String,
+      type: Schema.Types.ObjectId, // Reference for main category or null for main categories
+      ref: "categories",
       default: null,
+    },
+    slug: {
+      type: String,
     },
     name: {
       type: String,
@@ -14,10 +18,10 @@ const CategorySchema = new Schema(
     type: {
       type: String,
     },
-    keywords:{
+    keywords: {
       type: String,
     },
-    description:{
+    description: {
       type: String,
     },
     image: {
@@ -25,7 +29,7 @@ const CategorySchema = new Schema(
     },
     status: {
       type: String,
-      default:'active'
+      default: "active",
     },
   },
   { timestamps: true }

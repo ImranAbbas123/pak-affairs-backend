@@ -61,7 +61,44 @@ const getMainCategories = async (req, res) => {
     let success = false;
     let data = {};
     let response = {};
-    const categories = await Categories.find({ type: "main" });
+    // const categories = await Categories.find({ type: "main" });
+    const categories = await Categories.aggregate([
+      {
+        $lookup: {
+          from: "blogs", // Lookup the blogs collection
+          let: { categoryId: "$_id" }, // Pass the category _id
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $or: [
+                    { $eq: ["$category", "$$categoryId"] }, // Match blogs with main category
+                    { $eq: ["$sub_category", "$$categoryId"] }, // Match blogs with subcategory
+                  ],
+                },
+              },
+            },
+          ],
+          as: "blogs", // Attach the found blogs to the category
+        },
+      },
+      {
+        $addFields: {
+          blogCount: { $size: "$blogs" }, // Add a field with the count of blogs
+        },
+      },
+      {
+        $project: {
+          name: 1, // Include the category name
+          description: 1, // Include the description
+          image: 1, // Include the image
+          slug: 1, // Include the slug
+          type: 1, // Include the type
+          blogCount: 1, // Include the blog count
+        },
+      },
+    ]);
+
     if (categories) {
       data = {
         categories,

@@ -13,12 +13,13 @@ const CategorySchema = new Schema(
     },
     
     category: {
-      type: String,
-      default: null,
+      type: Schema.Types.ObjectId, // Reference to the subcategory
+      ref: "categories", // Assuming subcategories are in the same "categories" collection
     },
     sub_category: {
-      type: String,
-      default: null,
+      type: Schema.Types.ObjectId, // Reference to the subcategory
+      ref: "categories", // Assuming subcategories are in the same "categories" collection
+      default:null
     },
 
     title: {

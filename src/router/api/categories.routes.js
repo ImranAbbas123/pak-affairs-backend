@@ -26,7 +26,7 @@ router.post("/add/categories", upload.single("file"), async (req, res) => {
         error: "Sorry a category already exist on this name.",
       });
     }
-    let fileName = null;
+    let fileName;
     if (req.file) {
       fileName = await imageSave("categories", req.file);
     }
