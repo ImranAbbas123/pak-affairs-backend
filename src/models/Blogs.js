@@ -11,7 +11,7 @@ const CategorySchema = new Schema(
       type: String,
       default: null,
     },
-    
+
     category: {
       type: Schema.Types.ObjectId, // Reference to the subcategory
       ref: "categories", // Assuming subcategories are in the same "categories" collection
@@ -19,14 +19,14 @@ const CategorySchema = new Schema(
     sub_category: {
       type: Schema.Types.ObjectId, // Reference to the subcategory
       ref: "categories", // Assuming subcategories are in the same "categories" collection
-      default:null
+      default: null,
     },
 
     title: {
       type: String,
       required: true,
     },
-    keywords:{
+    keywords: {
       type: String,
     },
     description: {
@@ -35,11 +35,14 @@ const CategorySchema = new Schema(
     content: {
       type: String,
     },
-    trending:{
-      type:Number,
-      default:0,
-    }
-    ,
+    trending: {
+      type: Number,
+      default: 0,
+    },
+    like: {
+      type: Number,
+      default: 0,
+    },
     image: {
       type: String,
     },

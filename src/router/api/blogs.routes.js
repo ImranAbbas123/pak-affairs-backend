@@ -12,7 +12,11 @@ const {
   getBlogDetails,
   deleteBlog,
   getAllBlogs,
-  getByIDBlogDetails
+  getByIDBlogDetails,
+  blogLike,
+  blogUnLike,
+  blogComments,
+  blogCommentsList,
 } = require("../../controllers/blogs.controller");
 // add main and sub categories
 router.post(
@@ -32,10 +36,10 @@ router.post(
         fileName = await imageSave("blogs", req.file);
       }
       const slug = req.body.title
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, "")   // Remove all special characters except spaces and hyphens
-      .replace(/\s+/g, "-")       // Replace multiple spaces with a single hyphen
-      .replace(/-+/g, "-"); 
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "") // Remove all special characters except spaces and hyphens
+        .replace(/\s+/g, "-") // Replace multiple spaces with a single hyphen
+        .replace(/-+/g, "-");
       //  let deleteimage= deleteImage('users/1716879896069.png');
       let blogs = await Blogs.create({
         user: req.body.user,
@@ -44,7 +48,7 @@ router.post(
         sub_category: req.body.sub_category ? req.body.sub_category : null,
         title: req.body.title,
         description: req.body.description ? req.body.description : "",
-        keywords:req.body.keywords ? req.body.keywords : "",
+        keywords: req.body.keywords ? req.body.keywords : "",
         content: req.body.content ? req.body.content : null,
         image: fileName,
       });
@@ -74,18 +78,18 @@ router.put("/update", upload.single("file"), async (req, res) => {
     const blog = await Blogs.findOne({ _id: id });
     let fileName;
     let userImg;
-     console.log(req.body);
+    console.log(req.body);
     if (req.file) {
       // If a new file is provided, delete the current file
-       fileName = await imageSave("blogs", req.file);
+      fileName = await imageSave("blogs", req.file);
     } else {
       fileName = blog?.image;
     }
     const slug = req.body.title
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")   // Remove all special characters except spaces and hyphens
-    .replace(/\s+/g, "-")       // Replace multiple spaces with a single hyphen
-    .replace(/-+/g, "-"); 
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, "") // Remove all special characters except spaces and hyphens
+      .replace(/\s+/g, "-") // Replace multiple spaces with a single hyphen
+      .replace(/-+/g, "-");
     await Blogs.updateOne(
       { _id: id },
       {
@@ -93,7 +97,7 @@ router.put("/update", upload.single("file"), async (req, res) => {
           title: req.body.title,
           slug: slug,
           description: req.body.description ? req.body.description : "",
-          keywords:req.body.keywords ? req.body.keywords : "",
+          keywords: req.body.keywords ? req.body.keywords : "",
           content: req.body.content ? req.body.content : null,
           image: fileName,
         },
@@ -157,4 +161,12 @@ router.get("/get/main/categories/blogs/:id", getMainCategoriesBlogs);
 router.get("/get/sub/categories/blogs/:id", getSubCategoriesBlogs);
 // get all blogs
 router.get("/get/all", getAllBlogs);
+// like blogs
+router.post("/like/:slug", blogLike);
+// like blogs
+router.post("/unlike/:slug", blogUnLike);
+//blogs comments
+router.post("/comments/:slug", blogComments);
+router.get("/comments/list/:slug", blogCommentsList);
+
 module.exports = router;

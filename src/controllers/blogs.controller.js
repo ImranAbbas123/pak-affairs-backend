@@ -2,6 +2,7 @@ const express = require("express");
 const checkLogin = require("../middleware/checkLogin");
 var bcrypt = require("bcryptjs");
 const Blogs = require("../models/Blogs");
+const Comments = require("../models/Comments");
 const { ObjectId } = require("mongodb");
 const sendEmail = require("../../config/sendEmail");
 const { body, validationResult } = require("express-validator");
@@ -97,8 +98,8 @@ const getBlogDetails = async (req, res) => {
     let success = false;
     let data = {};
     let response = {};
-    const blog = await Blogs.findOne({slug:req.params.id});
-    blog.trending=parseInt(blog.trending)+1;
+    const blog = await Blogs.findOne({ slug: req.params.id });
+    blog.trending = parseInt(blog.trending) + 1;
     await blog.save();
     if (blog) {
       data = {
@@ -123,13 +124,137 @@ const getBlogDetails = async (req, res) => {
   }
 };
 // get all sub categories
+const blogLike = async (req, res) => {
+  try {
+    let success = false;
+    let data = {};
+    let response = {};
+    const blog = await Blogs.findOne({ slug: req.params.slug });
+    blog.like = parseInt(blog.like) + 1;
+    await blog.save();
+    if (blog) {
+      data = {
+        likes: blog.like,
+      };
+      response = {
+        data,
+        message: "Blog like  successfully.",
+        success: true,
+      };
+      return res.json(response);
+    } else {
+      response = {
+        data,
+        message: "Blog not founded.",
+        success: false,
+      };
+      return res.json(response);
+    }
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+// get all sub categories
+const blogComments = async (req, res) => {
+  const { text, name } = req.body;
+  const { slug } = req.params;
+  try {
+    let success = false;
+    let data = {};
+    let response = {};
+    const newComment = new Comments({ slug: slug, text, name });
+    await newComment.save();
+
+    if (newComment) {
+      data = {
+        newComment,
+      };
+      response = {
+        data,
+        message: "Comment added  successfully.",
+        success: true,
+      };
+      return res.json(response);
+    } else {
+      response = {
+        data,
+        message: "Blog not founded.",
+        success: false,
+      };
+      return res.json(response);
+    }
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+// get all sub categories
+const blogCommentsList = async (req, res) => {
+  try {
+    let success = false;
+    let data = {};
+    let response = {};
+    const comments = await Comments.find({ slug: req.params.slug });
+    if (comments) {
+      data = {
+        comments,
+      };
+      response = {
+        data,
+        message: "Comment fetched successfully.",
+        success: true,
+      };
+      return res.json(response);
+    } else {
+      response = {
+        data,
+        message: "Blog not founded.",
+        success: false,
+      };
+      return res.json(response);
+    }
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+// get all sub categories
+const blogUnLike = async (req, res) => {
+  try {
+    let success = false;
+    let data = {};
+    let response = {};
+    const blog = await Blogs.findOne({ slug: req.params.slug });
+    blog.like = parseInt(blog.like) - 1;
+    await blog.save();
+    if (blog) {
+      data = {
+        likes: blog.like,
+      };
+      response = {
+        data,
+        message: "Blog like  successfully.",
+        success: true,
+      };
+      return res.json(response);
+    } else {
+      response = {
+        data,
+        message: "Blog not founded.",
+        success: false,
+      };
+      return res.json(response);
+    }
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+// get all sub categories
 const getByIDBlogDetails = async (req, res) => {
   try {
     let success = false;
     let data = {};
     let response = {};
     const blog = await Blogs.findById(req.params.id);
-    blog.trending=parseInt(blog.trending)+1;
+    blog.trending = parseInt(blog.trending) + 1;
     await blog.save();
     if (blog) {
       data = {
@@ -170,7 +295,7 @@ const deleteBlog = async (req, res) => {
         success: false,
       });
     });
-  }
+};
 // get all blogs
 
 const getAllBlogs = async (req, res) => {
@@ -186,17 +311,17 @@ const getAllBlogs = async (req, res) => {
     if (filterName) {
       searchQuery.title = { $regex: new RegExp(filterName, "i") }; // Case-insensitive search on the 'name' field
     }
-    let blogs ;
-    if(type==='trending'){
+    let blogs;
+    if (type === "trending") {
       blogs = await Blogs.find(searchQuery)
-      .sort({ trending: -1,createdAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit);
-    }else{
-     blogs = await Blogs.find(searchQuery)
-      .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit);
+        .sort({ trending: -1, createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit);
+    } else {
+      blogs = await Blogs.find(searchQuery)
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit);
     }
     const blogCount = await Blogs.countDocuments(searchQuery);
     if (blogs) {
@@ -207,7 +332,7 @@ const getAllBlogs = async (req, res) => {
         data,
         blogCount,
         currentPage: page,
-      totalPages: Math.ceil(blogCount / limit),
+        totalPages: Math.ceil(blogCount / limit),
         message: "Blogs founded successfully.",
         success: true,
       };
@@ -216,8 +341,8 @@ const getAllBlogs = async (req, res) => {
       response = {
         data,
         message: "Blogs not found",
-        blogs:[],
-        totalPages:0,
+        blogs: [],
+        totalPages: 0,
         success: false,
       };
       return res.json(response);
@@ -232,5 +357,9 @@ module.exports = {
   getBlogDetails,
   deleteBlog,
   getAllBlogs,
-  getByIDBlogDetails
+  getByIDBlogDetails,
+  blogLike,
+  blogUnLike,
+  blogComments,
+  blogCommentsList,
 };
