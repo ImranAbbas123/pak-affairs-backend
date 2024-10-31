@@ -17,6 +17,7 @@ const {
   blogUnLike,
   blogComments,
   blogCommentsList,
+  getAllCategoryBlogs,
 } = require("../../controllers/blogs.controller");
 // add main and sub categories
 router.post(
@@ -161,6 +162,8 @@ router.get("/get/main/categories/blogs/:id", getMainCategoriesBlogs);
 router.get("/get/sub/categories/blogs/:id", getSubCategoriesBlogs);
 // get all blogs
 router.get("/get/all", getAllBlogs);
+// get all blogs
+router.get("/get/all/category/:slug", getAllCategoryBlogs);
 // like blogs
 router.post("/like/:slug", blogLike);
 // like blogs

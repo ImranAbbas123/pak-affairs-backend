@@ -10,6 +10,7 @@ const CategorySchema = new Schema(
     },
     slug: {
       type: String,
+      default: null,
     },
     name: {
       type: String,

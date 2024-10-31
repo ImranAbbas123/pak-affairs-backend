@@ -3,6 +3,7 @@ const checkLogin = require("../middleware/checkLogin");
 var bcrypt = require("bcryptjs");
 const Blogs = require("../models/Blogs");
 const Comments = require("../models/Comments");
+const Categories = require("../models/Categories");
 const { ObjectId } = require("mongodb");
 const sendEmail = require("../../config/sendEmail");
 const { body, validationResult } = require("express-validator");
@@ -351,6 +352,68 @@ const getAllBlogs = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+// get all all category blogs
+const getAllCategoryBlogs = async (req, res) => {
+  try {
+    let success = false;
+    let data = {};
+    let response = {};
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const filterName = req.query.title || "";
+    const type = req.query.type || "all";
+    const searchQuery = {};
+    const category = req.params.slug;
+
+    if (filterName) {
+      searchQuery.title = { $regex: new RegExp(filterName, "i") }; // Case-insensitive search on the 'name' field
+    }
+    let categories = await Categories.findOne({ slug: category });
+    if (categories.type.toLowerCase() === "sub") {
+      searchQuery.category = categories.main_id;
+      searchQuery.sub_category = categories.id;
+    } else {
+      searchQuery.category = categories.id;
+    }
+
+    let blogs;
+
+    blogs = await Blogs.find(searchQuery)
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+    const blogCount = await Blogs.countDocuments(searchQuery);
+
+    if (blogs) {
+      data = {
+        blogs,
+        categories,
+      };
+      response = {
+        data,
+        blogCount,
+        currentPage: page,
+        totalPages: Math.ceil(blogCount / limit),
+        message: "Blogs founded successfully.",
+        success: true,
+      };
+
+      return res.json(response);
+    } else {
+      response = {
+        data,
+        message: "Blogs not found",
+        blogs: [],
+        totalPages: 0,
+        success: false,
+      };
+      return res.json(response);
+    }
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   getMainCategoriesBlogs,
   getSubCategoriesBlogs,
@@ -362,4 +425,5 @@ module.exports = {
   blogUnLike,
   blogComments,
   blogCommentsList,
+  getAllCategoryBlogs,
 };
