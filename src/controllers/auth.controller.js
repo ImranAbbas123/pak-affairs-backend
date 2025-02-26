@@ -418,7 +418,25 @@ const getDoctors = async (req, res) => {
     return res.status(404).json({ success: false, message: error.message });
   }
 };
-
+const getAuther = async (req, res) => {
+  try {
+    const auther = await Users.findOne({ role: "author" }).select(
+      "name createdAt email role"
+    );
+    const data = {
+      auther,
+    };
+    let success = false;
+    const response = {
+      data,
+      message: "Auther found.",
+      success,
+    };
+    return res.json(response);
+  } catch (error) {
+    return res.status(404).json({ success: false, message: error.message });
+  }
+};
 module.exports = {
   login,
   forgotPassword,
@@ -428,4 +446,5 @@ module.exports = {
   addSchedule,
   editSchedule,
   getDoctors,
+  getAuther,
 };

@@ -18,6 +18,7 @@ const {
   addSchedule,
   editSchedule,
   getDoctors,
+  getAuther,
 } = require("../../controllers/auth.controller");
 const router = express.Router();
 const sendEmail = require("../../../config/sendEmail");
@@ -194,6 +195,7 @@ router.delete("/user/delete/:id", checkLogin, deleteUser);
 router.post("/add/schedule", checkLogin, addSchedule);
 router.post("/edit/schedule", checkLogin, editSchedule);
 router.get("/get/doctors", checkLogin, getDoctors);
+router.get("/auther", getAuther);
 function generateRandomPassword() {
   const length = 8;
   const charset = "0123456789";

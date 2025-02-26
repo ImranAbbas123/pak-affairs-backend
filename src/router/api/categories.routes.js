@@ -3,6 +3,7 @@ const checkLogin = require("../../middleware/checkLogin");
 const Categories = require("../../models/Categories");
 const { body, validationResult } = require("express-validator");
 const multer = require("multer");
+const { imageSave, deleteImage } = require("../../../config/image.save");
 const upload = multer();
 const router = express.Router();
 const {
@@ -96,7 +97,7 @@ router.put("/update/categories", upload.single("file"), async (req, res) => {
           type: req.body.type,
           description: req.body.description,
           keywords: req.body.keywords,
-          main_id: req.body.main,
+
           image: userImg,
         },
       }
@@ -108,6 +109,7 @@ router.put("/update/categories", upload.single("file"), async (req, res) => {
     };
     return res.json(response);
   } catch (error) {
+    console.log(error.message);
     return res.status(500).send("Internal Server Error!");
   }
 });
