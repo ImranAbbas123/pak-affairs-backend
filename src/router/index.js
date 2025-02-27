@@ -11,4 +11,5 @@ router.use("/manufacturers", require("./api/manufacturer.routes.js"));
 router.use("/models", require("./api/model.routes.js"));
 router.use("/results", require("./api/results.routes.js"));
 router.use("/contacts", require("./api/contactus.routes.js"));
+router.use("/newsletter", require("./api/newsletter.routes.js"));
 module.exports = router;
