@@ -9,7 +9,6 @@ const connectTMongo = require("./db");
 const port = process.env.PORT || 5000;
 const baseUrl = process.env.REACT_APP_BASE_URL;
 const fileUpload = require('express-fileupload');
-
 connectTMongo();
 const corsOptions = {
   origin: baseUrl, // Replace with your allowed origin
