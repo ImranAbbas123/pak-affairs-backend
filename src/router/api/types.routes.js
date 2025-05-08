@@ -3,7 +3,6 @@ var bcrypt = require("bcryptjs");
 const checkLogin = require("../../middleware/checkLogin");
 const Types = require("../../models/Types");
 const HandlingTools = require("../../models/HandlingTools");
-
 const { body, validationResult } = require("express-validator");
 const multer = require("multer");
 const upload = multer();
