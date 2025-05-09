@@ -413,7 +413,59 @@ const getAllCategoryBlogs = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+const getAllBlogsSitemap = async (req, res) => {
+  try {
+    let blogs;
+    let response = {};
 
+    blogs = await Blogs.find({}).select("slug");
+    console.log(blogs, "blogs");
+    if (blogs) {
+      response = {
+        blogs,
+        success: true,
+      };
+      return res.json(response);
+    } else {
+      response = {
+        blogs,
+        message: "Blogs not found",
+        success: false,
+      };
+      return res.json(response);
+    }
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+const getAllCommentsList = async (req, res) => {
+  try {
+    let success = false;
+    let data = {};
+    let response = {};
+    const comments = await Comments.find({});
+    if (comments) {
+      data = {
+        comments,
+      };
+      response = {
+        data,
+        message: "Comments fetched successfully.",
+        success: true,
+      };
+      return res.json(response);
+    } else {
+      response = {
+        data,
+        message: "Comments not found.",
+        success: false,
+      };
+      return res.json(response);
+    }
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
 module.exports = {
   getMainCategoriesBlogs,
   getSubCategoriesBlogs,
@@ -426,4 +478,6 @@ module.exports = {
   blogComments,
   blogCommentsList,
   getAllCategoryBlogs,
+  getAllBlogsSitemap,
+  getAllCommentsList,
 };
