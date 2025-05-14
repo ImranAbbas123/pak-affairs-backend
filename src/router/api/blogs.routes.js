@@ -18,6 +18,8 @@ const {
   blogComments,
   blogCommentsList,
   getAllCategoryBlogs,
+  getAllBlogsSitemap,
+  getAllCommentsList,
 } = require("../../controllers/blogs.controller");
 // add main and sub categories
 router.post(
@@ -71,6 +73,8 @@ router.post(
     }
   }
 );
+// get all blogs sitemap
+router.get("/get/all/sitemap", getAllBlogsSitemap);
 // update blogs
 router.put("/update", upload.single("file"), async (req, res) => {
   try {
@@ -171,5 +175,5 @@ router.post("/unlike/:slug", blogUnLike);
 //blogs comments
 router.post("/comments/:slug", blogComments);
 router.get("/comments/list/:slug", blogCommentsList);
-
+router.get("/all/comments/list", getAllCommentsList);
 module.exports = router;
