@@ -35,9 +35,9 @@ router.post(
       let success = false;
       let userImg = null;
       let fileName;
-      if (req.file) {
-        fileName = await imageSave("blogs", req.file);
-      }
+      // if (req.file) {
+      //   fileName = await imageSave("blogs", req.file);
+      // }
       const slug = req.body.title
         .toLowerCase()
         .replace(/[^\w\s-]/g, "") // Remove all special characters except spaces and hyphens
@@ -53,7 +53,7 @@ router.post(
         description: req.body.description ? req.body.description : "",
         keywords: req.body.keywords ? req.body.keywords : "",
         content: req.body.content ? req.body.content : null,
-        image: fileName,
+        image: req.body.image ? req.body.image : null,
       });
       success = true;
       const data = {
@@ -84,9 +84,9 @@ router.put("/update", upload.single("file"), async (req, res) => {
     let fileName;
     let userImg;
     console.log(req.body);
-    if (req.file) {
+    if (req.body.image) {
       // If a new file is provided, delete the current file
-      fileName = await imageSave("blogs", req.file);
+      fileName = req.body.image;
     } else {
       fileName = blog?.image;
     }
