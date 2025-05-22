@@ -180,9 +180,28 @@ const getSingleCategory = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+// delete category
+const deleteCategory = async (req, res) => {
+  const categoryId = req.params.id;
+  //const user = Users.findByIdAndDelete(userId);
+  Categories.deleteOne({ _id: categoryId })
+    .then(() => {
+      res.status(200).json({
+        message: "Deleted!",
+        success: true,
+      });
+    })
+    .catch((error) => {
+      res.status(400).json({
+        message: error.message,
+        success: false,
+      });
+    });
+};
 module.exports = {
   getMainCategories,
   getSubCategories,
   getAllCategories,
   getSingleCategory,
+  deleteCategory,
 };

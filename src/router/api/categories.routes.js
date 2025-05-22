@@ -11,6 +11,7 @@ const {
   getSubCategories,
   getAllCategories,
   getSingleCategory,
+  deleteCategory,
 } = require("../../controllers/category.controller");
 // add main and sub categories
 router.post("/add/categories", upload.single("file"), async (req, res) => {
@@ -28,9 +29,9 @@ router.post("/add/categories", upload.single("file"), async (req, res) => {
       });
     }
     let fileName;
-    if (req.file) {
-      fileName = await imageSave("categories", req.file);
-    }
+    // if (req.file) {
+    //   fileName = await imageSave("categories", req.file);
+    // }
     const slug = req.body.name
       .toLowerCase()
       .replace(/[^\w\s-]/g, "") // Remove all special characters except spaces and hyphens
@@ -43,7 +44,7 @@ router.post("/add/categories", upload.single("file"), async (req, res) => {
       description: req.body.description ? req.body.description : "",
       keywords: req.body.keywords ? req.body.keywords : "",
       main_id: req.body.main ? req.body.main : null,
-      image: fileName,
+      image: req.body.image ? req.body.image : "",
     });
 
     success = true;
@@ -76,10 +77,9 @@ router.put("/update/categories", upload.single("file"), async (req, res) => {
       });
     }
     let userImg;
-    if (req.file) {
+    if (req.body.image) {
       // If a new file is provided, delete the current file
-
-      userImg = await imageSave("categories", req.file);
+      userImg = req.body.image;
     } else {
       userImg = category?.image;
     }
@@ -97,7 +97,6 @@ router.put("/update/categories", upload.single("file"), async (req, res) => {
           type: req.body.type,
           description: req.body.description,
           keywords: req.body.keywords,
-
           image: userImg,
         },
       }
@@ -121,5 +120,6 @@ router.get("/categories/all", getAllCategories);
 router.get("/get/main/categories", getMainCategories);
 // get all subcategories of main category
 router.get("/get/sub/categories/:id", getSubCategories);
-
+// get delete blog
+router.delete("/delete/:id", deleteCategory);
 module.exports = router;
